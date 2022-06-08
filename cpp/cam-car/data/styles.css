@@ -1,0 +1,19 @@
+.video-feed {
+    background-color: grey; 
+    border-radius: 15px;
+    width: 100%; 
+    aspect-ratio: 6/4;
+}
+
+.ctrl-button {
+    height: 80px;
+    margin: 5px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.motor-control-area {
+    background-color: rgb(230, 230, 230);
+    border-radius: 15px;
+    padding: 20px
+}

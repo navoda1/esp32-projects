@@ -3,9 +3,15 @@
 
 #include <stdint.h>
 
-typedef unsigned char status_t;
-#define success 0
-#define failure -1
+typedef enum {
+    success,
+    failure
+} status_t;
+
+typedef enum {
+    dc,
+    servo
+} motor_type_t;
 
 
 /* GPIO Pins */

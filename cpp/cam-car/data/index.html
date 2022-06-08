@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="styles.css">
+        <script src="scripts.js"></script>
+    </head>
+    <title>ESP32 Web Server</title>
+
+    <body>
+        <div class="container">
+
+            <!-- Page Title -->
+            <div class="row justify-content-center">
+                <div class="col d-flex justify-content-center">
+                    <h1 class="m-5" id="title">CamBot</h1>
+                </div>
+            </div>
+
+            <!-- Video feed -->
+            <div class="row justify-content-center mt-2">
+                <div class="col-8 d-flex justify-content-center">
+                    <div class="video-feed"></div>
+                </div>
+            </div>
+            
+            <div class="row justify-content-center">
+                
+                <!-- DC Motor Controls -->
+                <div class="col-12 col-md-5 m-2">
+                    <div class="container mt-5 motor-control-area" id="dc-controls">
+                        <div class="row">
+                            <div class="col d-flex justify-content-center">
+                                <h3>Wheels</h3>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col d-flex justify-content-center">
+                                <button type="button" id="button-dc-foward" onclick="sendEvent('dc', 'forward', 1)" class="btn btn-dark ctrl-button btn-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                                        <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col d-flex justify-content-center">
+                                <button type="button" id="button-dc-left" onclick="sendEvent('dc', 'left', 1)" class="btn btn-dark ctrl-button btn-lg mx-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                                        <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+                                    </svg>
+                                </button>
+                                <button type="button" id="button-dc-right" onclick="sendEvent('dc', 'right', 1)" class="btn btn-dark ctrl-button btn-lg mx-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                                        <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                                
+                        <div class="row">
+                            <div class="col d-flex justify-content-center">
+                                <button type="button" id="button-dc-backward" onclick="sendEvent('dc', 'backward', 1)" class="btn btn-dark ctrl-button btn-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Servo Motor Controls -->
+                <div class="col-12 col-md-5 m-2">
+                    <div class="container mt-5 motor-control-area" id="servo-controls">
+                        <div class="row">
+                            <div class="col d-flex justify-content-center">
+                                <h3>Camera</h3>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col d-flex justify-content-center">
+                                <button type="button" id="button-servo-up" onclick="sendEvent('servo', 'up', 1)" class="btn btn-warning ctrl-button btn-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                                        <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col d-flex justify-content-center">
+                                <button type="button" id="button-servo-left" onclick="sendEvent('servo', 'left', 1)" class="btn btn-warning ctrl-button btn-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                                        <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+                                    </svg>
+                                </button>
+                                <button type="button" id="button-servo-left" onclick="sendEvent('servo', 'center', 1)" class="btn btn-warning ctrl-button btn-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                        <circle cx="8" cy="8" r="8"/>
+                                    </svg>
+                                </button>
+                                <button type="button" id="button-servo-right" onclick="sendEvent('servo', 'right', 1)" class="btn btn-warning ctrl-button btn-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                                        <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col d-flex justify-content-center">
+                                <button type="button" id="button-servo-down" onclick="sendEvent('servo', 'down', 1)" class="btn btn-warning ctrl-button btn-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>
